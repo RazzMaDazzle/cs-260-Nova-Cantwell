@@ -8,15 +8,15 @@ def main():
   # uncomment functions to run specific tests
 
   testConstructor()
-  #testAppend()
-  #testMakeRoom()
-  #testFind()
-  #testFindLargest()
+  testAppend()
+  testMakeRoom()
+  testFind()
+  testFindLargest()
 
-  #testInsertRemove()
-  #testMix()
+  testInsertRemove()
+  testMix()
 
-  #testThink()
+  testThink()
 
 
 def readInVals(skip_lines):
