@@ -14,10 +14,10 @@ def main():
   queueTest()
   resizeTest()
   listTest()
-  #addHeadTest()
-  #removeTailTest()
-  #revQueueTest()
-  #mixTest()
+  addHeadTest()
+  removeTailTest()
+  revQueueTest()
+  mixTest()
   #thinkTest()
 
 

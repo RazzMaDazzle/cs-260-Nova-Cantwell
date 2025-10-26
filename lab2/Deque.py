@@ -7,6 +7,7 @@ class Deque:
         self.tail = 1
         self.size = n
         self.count = 0
+        self.stupidassneg = 0
 
     def addTail(self, val):
         if self.count == self.size:
@@ -25,10 +26,16 @@ class Deque:
             return
 
     def removeHead(self):
-        tmp = self.theArray[self.head + 1]
-        self.head += 1
-        self.count -= 1
-        return tmp
+        if self.head + 1 == self.size:
+            tmp = self.theArray[-(self.size)]
+            self.head = -(self.size)
+            self.count -= 1
+            return tmp
+        else:
+            tmp = self.theArray[self.head + 1]
+            self.head += 1
+            self.count -= 1
+            return tmp
 
     def dumpArray(self):
         tmp = ""
@@ -71,7 +78,45 @@ class Deque:
                 tmp1 += 1
         return tmpO
 
+    def addHead(self, val):
+        if self.size  == self.count:
+            self.theArray = self.resize()
+            self.addHead(val)
+            return
+        elif not(self.size == self.head - 1):
+            self.head = self.size - 1
+            self.theArray[self.head] = val
+            self.head -= 1
+            self.count += 1
+            return
+        else:
+            self.theArray[self.head] = val
+            self.head -= 1
+            self.count += 1
+            return
 
+    def removeTail(self):
+        if self.count == 0:
+            raise IndexError("Array is empty in removeTail")
+        else:
+            tmp = self.theArray[self.tail - 2]
+            self.tail -= 1
+            self.count -= 1
+            return tmp
+
+    def negResize(self):
+        tmp = array.array('i', [0] * self.size * 2)
+        for i in range(0, self.count):
+            if(self.head + 1 == self.size):
+                tmp[i]=self.theArray[-(self.size)]
+                self.head = -(self.size)
+            else:
+                tmp[i]  = self.theArray[self.head + i]
+        self.head = -1
+        self.tail = self.count + 1
+        self.size = self.size * 2
+        self.stupidassneg = 0
+        return tmp
 
 
 
