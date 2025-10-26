@@ -3,55 +3,69 @@ import array
 class Deque:
     def __init__(self, n = 20):
         self.theArray = array.array('i', [0] * n)
-        self.head = 0
-        self.tail = 0
+        self.head = -1
+        self.tail = 1
         self.size = n
+        self.count = 0
 
     def addTail(self, val):
-        if(self.tail + 1 > self.size and self.head != 0):
-            self.tail = 0
-        if not(self.tail + 1 == self.head):
-            self.theArray[self.tail] = val
+        print("dcall")
+        if self.count == self.size:
+            self. theArray = self.resize()
+            self.addTail(val)
+            return
+        elif self.tail - 1 == self.size:
+            self.tail = 1
+            self.theArray[self.tail - 1] = val
+            self.count += 1
             self.tail += 1
-        return
+        else:
+            self.theArray[self.tail - 1] = val
+            print(val)
+            print(self.theArray[self.tail - 1])
+            self.count += 1
+            self.tail += 1
+            print(self.theArray)
+            print(self.head)
+            print(self.tail)
+            return
 
     def removeHead(self):
-        if(self.head == self.tail):
-            raise IndexError("Array is empty in removeHead")
-        else:
-            tmp = self.theArray[self.head]
-            self.head += 1
-            return tmp
+        tmp = self.theArray[self.head + 1]
+        self.head += 1
+        self.count -= 1
+        return tmp
 
     def dumpArray(self):
-        if (self.tail <  self.head):
-            tmp = self.theArray
-        else:
-            tmp = array.array('i', [0] * self.tail)
-            for i in range(0, self.tail):
-                tmp[i] = self.theArray[i]
-        return str(tmp)
-
+        tmp = ""
+        for i in range(0, self.count):
+            tmp += str(self.theArray[i]) + " "
+        return tmp
     def isEmpty(self):
-        if (self.head == self.tail):
+        if self.count == 0:
             return True
-        else:
-            return False
+        return False
 
     def resize(self):
-        tmp = self.theArray
-        self.theArray = array.array('i', [0] * 2 * (self.size))
-        count = 0
-        if(self.head < self.tail):
-            count = self.tail - self.head
-            for i in range(0, count):
-                self.theArray[i] = tmp[i]
-        elif(self.head > self.tail):
-            count = self.size - (self.head - self.tail)
-            for i in range(0, count):
-                self.theArray[i] = tmp[i]
-        self.head = 0
-        self.tail = count
-        return
+        print("call")
+        print(self.count)
+        print("####")
+        tmp = array.array('i', [0] * self.size * 2)
+        tmp2 = self.count
+        for i in range(0, tmp2):
+            if not(self.size - 1 == self.head):
+                tmp[i] = self.theArray[self.head + 1]
+                self.head += 1
+            elif self.size -1 == self.head:
+                self.head = -1
+                tmp[i] = self.theArray[self.head + 1]
+                self.head += 1
+        print(tmp)
+        print(self.tail)
+        self.head = -1
+        self.size = self.size * 2
+        self.tail = self.count + 1
+        return tmp
+
 
 
