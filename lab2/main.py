@@ -13,7 +13,7 @@ def main():
 
   queueTest()
   resizeTest()
-  #listTest()
+  listTest()
   #addHeadTest()
   #removeTailTest()
   #revQueueTest()

@@ -9,7 +9,6 @@ class Deque:
         self.count = 0
 
     def addTail(self, val):
-        print("dcall")
         if self.count == self.size:
             self. theArray = self.resize()
             self.addTail(val)
@@ -21,13 +20,8 @@ class Deque:
             self.tail += 1
         else:
             self.theArray[self.tail - 1] = val
-            print(val)
-            print(self.theArray[self.tail - 1])
             self.count += 1
             self.tail += 1
-            print(self.theArray)
-            print(self.head)
-            print(self.tail)
             return
 
     def removeHead(self):
@@ -47,9 +41,6 @@ class Deque:
         return False
 
     def resize(self):
-        print("call")
-        print(self.count)
-        print("####")
         tmp = array.array('i', [0] * self.size * 2)
         tmp2 = self.count
         for i in range(0, tmp2):
@@ -60,12 +51,27 @@ class Deque:
                 self.head = -1
                 tmp[i] = self.theArray[self.head + 1]
                 self.head += 1
-        print(tmp)
-        print(self.tail)
         self.head = -1
         self.size = self.size * 2
         self.tail = self.count + 1
         return tmp
+
+    def listQueue(self):
+        tmp1 = self.head
+        tmp2 = self.tail
+        tmpO = ""
+
+        for i in range(0, self.count):
+            if not(self.size - 1 == tmp1):
+                tmpO += str(self.theArray[tmp1 + 1]) + " "
+                tmp1 += 1
+            elif self.size -1 == tmp1:
+                tmp1 = -1
+                tmpO += str(self.theArray[tmp1 + 1]) + " "
+                tmp1 += 1
+        return tmpO
+
+
 
 
 
