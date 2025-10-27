@@ -4,11 +4,11 @@ from TextClass import TextClass
 def main():
   # uncomment tests to run
 
-  # basic tests
+    #basic tests
   testHead()
-  #testTail()
-  #testQueue()
-  #testDisplay()
+  testTail()
+  testQueue()
+  testDisplay()
   #testFind()
   #testFindRemove()
 
@@ -21,6 +21,7 @@ def main():
 
   # thinking test
   #testThink()
+
 
 
 # basic tests
