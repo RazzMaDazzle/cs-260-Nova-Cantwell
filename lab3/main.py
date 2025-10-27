@@ -9,18 +9,18 @@ def main():
   testTail()
   testQueue()
   testDisplay()
-  #testFind()
-  #testFindRemove()
+  testFind()
+  testFindRemove()
 
   # advanced tests
-  #testAppend()
-  #testFindNext()
-  #testRemoveLast()
-  #testInsertLast()
-  #testMixed()
+  testAppend()
+  testFindNext()
+  testRemoveLast()
+  testInsertLast()
+  testMixed()
 
   # thinking test
-  #testThink()
+  testThink()
 
 
 

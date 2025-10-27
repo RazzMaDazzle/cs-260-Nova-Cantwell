@@ -1,6 +1,7 @@
 class TextClass:
     def __init__(self):
         self.node = None
+        self.next = None
         pass
 
     def addHead(self, value):
@@ -37,23 +38,14 @@ class TextClass:
             tmp = self.traverseTail(self.node)
         return tmp.value
 
-    def traverseHead(self, node, value=None):
+    def traverseHead(self, node):
         if(node.prev == None):
             return node
-        elif(value != None):
-            if(value == node.value):
-                return node
         else:
             return self.traverseHead(node.prev)
 
     def traverseTail(self, node):
-        if(node.next == None):
-            return node
-        else:
-            return self.traverseTail(node.next)
-
-    def traverseTailf(self, node, value):
-        if(value == node.value):
+        if node.next is None:
             return node
         else:
             return self.traverseTail(node.next)
@@ -99,13 +91,121 @@ class TextClass:
         tstr += str(tmp.value) + " "
         return tstr
 
-    def findNode(self, value):
+    def findNode(self, value, node):
+        tmp = self.traverseHead(node)
+        while(tmp != None):
+            if tmp.value == value:
+                if (self.next is None or self.next is not tmp):
+                    self.next = tmp
+                    return tmp
+                else:
+                    pass
+            tmp = tmp.next
+        return False
+
+    def findNext(self, value):
+        tmp = self.findNode(value, self.node)
+        if tmp:
+            return True
+        else:
+            return False
+
+    def find(self, value):
         if(self.node == None):
             raise ValueError("Empty List")
         else:
-            tmp
+            tmp = self.findNode(value, self.node)
+            if tmp:
+                return True
+            else:
+                return False
 
+    def findRemove(self, value):
+        if(self.node == None):
+            raise ValueError("Empty List")
+        else:
+            tmp = self.findNode(value, self.node)
+            if tmp:
+                if(tmp == self.node):
+                    if(tmp.prev != None):
+                        tmp.prev.next = tmp.next
+                        self.node = tmp.prev
+                    elif(tmp.next != None):
+                        tmp.next.prev = tmp.prev
+                        self.node = tmp.next
+                    else:
+                        self.node = None
+                else:
+                    if(tmp.prev != None):
+                        tmp.prev.next = tmp.next
+                        tmp = tmp.prev
+                    else:
+                        tmp.next.prev = tmp.prev
+                        tmp = tmp.next
+                return True
+            else:
+                return False
 
+    def append(self, tclass):
+        tmp = tclass.traverseHead(tclass.node)
+        tmp2 = self.traverseTail(self.node)
+
+        tmp2.next = tmp
+        tmp.prev = tmp2
+        return
+
+    def removeLast(self, node=None):
+        if self.next is not None:
+            if node is None:
+                node = self.traverseHead(self.node)
+            if self.next is self.node:
+                if self.node.next is not None:
+                    self.node.next.prev = self.node.prev
+                    self.node = self.next
+                elif self.node.prev is not None:
+                    self.node.prev.next = self.next
+                    self.node = self.node.prev
+                else:
+                    self.node = None
+            else:
+                if node is self.next:
+                    node.next.prev = node.prev
+                    if node.prev is not None:
+                        node.prev.next = node.next
+                        node = None
+                elif node.next is not None:
+                    return self.removeLast(node.next)
+                else:
+                    return
+        else:
+            return
+
+    def insertLast(self, value, node=None):
+        if self.next is not None:
+            tmp = Node(value)
+            if node is None:
+                node = self.traverseHead(self.next)
+            if self.node is self.next:
+                tmp.prev = self.node.prev
+                tmp.next = self.node
+                self.node.prev.next = tmp
+                self.node.prev = tmp
+            elif node is self.next:
+                tmp.prev = node.prev
+                tmp.next = node
+                node.prev.next = tmp
+                node.prev = tmp
+            else:
+                if node.next is not None:
+                    self.insertLast(value, node.next)
+                else:
+                    return
+        else:
+            return
+
+    def thinkSolve(self, tclass):
+        self.append(tclass)
+        return
 class Node:
     def __init__(self, value):
         self.value = value
