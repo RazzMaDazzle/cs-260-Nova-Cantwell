@@ -13,19 +13,19 @@ def main():
 
   #print("\nStringHash tests\n")
 
-  # Basic tests
-  testBaseFind()
+  #Basic tests
+  #testBaseFind()
   #testBaseRemove()
   #testBaseDisplay()
   #testBaseGrow()
 
   # Advanced tests
-  #testAdvFind()
-  #testAdvRemove()
+  testAdvFind()
+  testAdvRemove()
   #testAdvDisplay()
 
   # Test thinking problem
-  #testThink()
+  testThink()
 
 
 def testBaseFind():
