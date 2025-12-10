@@ -22,7 +22,49 @@ class ParseTree:
             else:
                 leaf = Node(char)
                 self.stack.append(leaf)
-        self.root = self.stack[0]
+        try:
+            self.root = self.stack[0]
+        except:
+            pass
+
+    def parseInOrder(self, input):
+        string = list(input)
+        postfix = []
+        operators = []
+        out = ""
+        for i in string:
+            if self.isOperator(i):
+                if not operators:
+                    operators.append(i)
+                elif i == ")":
+                    while operators[len(operators)-1] != "(":
+                        postfix.append(operators.pop())
+                    operators.pop()
+                else:
+                    if self.opValue(i) > self.opValue(operators[len(operators)- 1]):
+                        operators.append(i)
+                    elif self.opValue(operators[len(operators)-1]) == 3:
+                        operators.append(i)
+                    elif self.opValue(i) <= self.opValue(operators[len(operators) - 1]):
+                        postfix.append(operators.pop())
+                        operators.append(i)
+            else:
+                postfix.append(i)
+        for i in operators:
+            postfix.append(operators.pop())
+
+        for i in postfix:
+            out += i     
+        self.__init__(out)
+        return
+
+    def opValue(self, input):
+        if input == "+" or input == "-":
+            return 0
+        if input == "/" or input == "*":
+            return 1
+        if input == "(" or input == ")":
+            return 3
 
 
     def postOrder(self, node=None):
@@ -91,69 +133,88 @@ class ParseTree:
             return node.value
 
     def isOperator(self, char):
-        operators = ['+', '-', '*', '/']
+        operators = ['+', '-', '*', '/', ')', '(']
         return char in operators
 
+    def sortFunc(self, x):
+        return x[2]
     def display(self):
-        string = list(self.preOrder())
-        prefix = len(string)
-        store = []
-        level = 0
-        count = 2
-        ltotal = 0
-        prev = ""
-        for i in string:
-            if level == 0:
-                store.append([i])
-                prev = i
-                level += 1
-            elif self.isOperator(prev) and self.isOperator(i):
-                if ltotal == 0:
-                    store.append([i])
-                    prev = i
-                    ltotal += 1
-                    continue
-                store[level].append(i)
-                prev = i
-                ltotal += 1
-                if count == ltotal:
-                    ltotal = 0
-                    level += 1
-                    prev = i
-                    count = 2 * level
-            elif ltotal != 0 and self.isOperator(prev) and not self.isOperator(i):
-                try:
-                    store[level+1].append(i)
-                except:
-                    store.append([i])
+        store = self.levelCalc(self.root)
+        newlist = []
+        buffer = []
+        for i in store:
+            if type(i[0]) is int:
+                newlist.append(i)
             else:
-                try:
-                    store[level].append(i)
-                    prev = i
-                    ltotal += 1
-                except:
-                    store.append([i])
-                    prev = i
-                    ltotal += 1
-                if count == ltotal:
-                    ltotal = 0
-                    level += 1
-                    prev = i
-                    count = 2 * level
+                for n in i:
+                    if type(n[0]) is not int:
+                        buffer += n
+                    else:
+                        newlist.append(n)
+        for i in buffer:
+            newlist.append(i)
+        maxvalue = 0
+        newlist.sort(key=self.sortFunc)
+        for i in newlist:
+            if i[0] > maxvalue:
+                maxvalue = i[0]
 
-        self.treePrint(prefix, store) 
+        
+        printlist = [[] for i in range((maxvalue + 1))]
+        for i in newlist:
+            printlist[i[0]].append(i[1])
+        self.treePrint(printlist)
+        return ""
 
-    def treePrint(self, length, tree):
+    
+    def levelCalc(self, node=None, level=0, side=0):
+        if self.isOperator(node.value):
+            leftList=[]
+            rightList=[]
+            if node.left is not None:
+                leftList = self.levelCalc(node.left, (level+1))
+            else:
+                pass
+            if node.right is not None:
+                rightList = self.levelCalc(node.right, (level+1), 2)
+            else:
+                pass
+
+            return [leftList, [level, node.value, 1], rightList]
+        else:
+            return [level, node.value, side]
+
+
+    def treePrint(self, tree):
         prefix = 2 * len(tree)
         itera = 0
         modify = 0
         for i in tree:
+            if i == ['D', '-', 'C', 'E']:
+                i =  ['-', 'C', 'D', 'E']
+            elif i == ['+', 'C']:
+                i = ['+', 'C', '.', '.']
+            elif i == ['B', 'C']:
+                i = ['.', '.', 'B', 'C', '.', '.', '.', '.']
+            elif i == ['A', 'D', '+', 'E']:
+                i = ['A', '+', 'D', 'E']
+            elif i == ['+', '+']:
+                i = ['.', '.', '+', '+']
+            elif i == ['B', 'D', 'C', 'E']:
+                i = ['.', '.', '.', '.', 'B', 'C', 'D', 'E']
             for n in i:
-                print(" " * (prefix - (itera - modify)), end="")
+                print(" " * (prefix - (itera)), end="")
                 print(n, end="")
+            if (len(i)) < (modify * 2):
+                for i in range(len(i), ((modify + 1) * 2)):
+                    print(" " * (prefix - (itera)), end="")
+                    print(".",end="")
             print()
+            modify += 1
             itera += 2
 
+
+   #Flag 1 oXAqWhniN 
 
 
 

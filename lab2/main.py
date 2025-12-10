@@ -18,7 +18,7 @@ def main():
   removeTailTest()
   revQueueTest()
   mixTest()
-  #thinkTest()
+  thinkTest()
 
 
 def queueTest():

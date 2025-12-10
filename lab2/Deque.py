@@ -26,6 +26,8 @@ class Deque:
             return
 
     def removeHead(self):
+        if self.count == 0:
+            raise IndexError("Array is empty in removeHead")
         if self.head + 1 == self.size:
             tmp = self.theArray[-(self.size)]
             self.head = -(self.size)
@@ -79,21 +81,20 @@ class Deque:
         return tmpO
 
     def addHead(self, val):
+        if self.size == abs(self.head):
+            self.head = 0
         if self.size  == self.count:
             self.theArray = self.resize()
             self.addHead(val)
-            return
         elif not(self.size == self.head - 1):
-            self.head = self.size - 1
             self.theArray[self.head] = val
             self.head -= 1
             self.count += 1
-            return
         else:
-            self.theArray[self.head] = val
             self.head -= 1
+            self.theArray[self.head] = val
             self.count += 1
-            return
+        return
 
     def removeTail(self):
         if self.count == 0:
@@ -117,6 +118,11 @@ class Deque:
         self.size = self.size * 2
         self.stupidassneg = 0
         return tmp
+
+    def solveThink(self, inArray, number):
+        for i in reversed(range(number)):
+            self.addTail(inArray[i])
+
 
 
 

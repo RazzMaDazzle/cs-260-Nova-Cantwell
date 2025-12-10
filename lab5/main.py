@@ -6,7 +6,7 @@ display = True
 def main():
   # uncomment tests to run
   testBase()
-  #testAdv()
+  testAdv()
   #testThink()
 
 
